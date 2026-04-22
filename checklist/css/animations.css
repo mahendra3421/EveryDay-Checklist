@@ -1,0 +1,245 @@
+/* ============================================
+   ANIMATIONS — FlowTask Productivity App
+   ============================================ */
+
+/* ---- Keyframes ---- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; max-height: 0; }
+  to   { opacity: 1; max-height: 500px; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(108, 99, 255, 0.4); }
+  50%       { transform: scale(1.03); box-shadow: 0 0 0 8px rgba(108, 99, 255, 0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounceIn {
+  0%   { transform: scale(0.3); opacity: 0; }
+  50%  { transform: scale(1.05); }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes checkmark {
+  0%   { stroke-dashoffset: 100; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes strikethrough {
+  from { text-decoration-color: transparent; }
+  to   { text-decoration-color: var(--text-secondary); }
+}
+
+@keyframes progressFill {
+  from { width: 0%; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(108, 99, 255, 0.3); }
+  50%       { box-shadow: 0 0 25px rgba(108, 99, 255, 0.6); }
+}
+
+@keyframes toastIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes toastOut {
+  from { transform: translateX(0); opacity: 1; }
+  to   { transform: translateX(120%); opacity: 0; }
+}
+
+@keyframes achievementPop {
+  0%   { transform: translateX(120%) scale(0.8); opacity: 0; }
+  60%  { transform: translateX(-10px) scale(1.05); opacity: 1; }
+  100% { transform: translateX(0) scale(1); }
+}
+
+@keyframes confettiFall {
+  0%   { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+@keyframes heatmapReveal {
+  from { opacity: 0; transform: scale(0.5); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fireFlicker {
+  0%, 100% { text-shadow: 0 0 5px #ff6b00, 0 0 10px #ff6b00; }
+  50%       { text-shadow: 0 0 10px #ff3d00, 0 0 20px #ff9f43; }
+}
+
+@keyframes neonBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.8; }
+}
+
+/* ---- Animation Utility Classes ---- */
+.fade-in       { animation: fadeIn 0.35s ease-out forwards; }
+.fade-in-up    { animation: fadeInUp 0.4s ease-out forwards; }
+.fade-in-scale { animation: fadeInScale 0.3s ease-out forwards; }
+.slide-left    { animation: slideInLeft 0.35s ease-out forwards; }
+.slide-right   { animation: slideInRight 0.35s ease-out forwards; }
+.bounce-in     { animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
+.spin          { animation: spin 1s linear infinite; }
+.shake         { animation: shake 0.5s ease-in-out; }
+.pulse-glow    { animation: glowPulse 2s ease-in-out infinite; }
+
+/* Staggered list animations */
+.task-item:nth-child(1)  { animation-delay: 0.02s; }
+.task-item:nth-child(2)  { animation-delay: 0.04s; }
+.task-item:nth-child(3)  { animation-delay: 0.06s; }
+.task-item:nth-child(4)  { animation-delay: 0.08s; }
+.task-item:nth-child(5)  { animation-delay: 0.10s; }
+.task-item:nth-child(6)  { animation-delay: 0.12s; }
+.task-item:nth-child(7)  { animation-delay: 0.14s; }
+.task-item:nth-child(8)  { animation-delay: 0.16s; }
+.task-item:nth-child(9)  { animation-delay: 0.18s; }
+.task-item:nth-child(10) { animation-delay: 0.20s; }
+
+/* Task completion animation */
+.task-completing {
+  animation: fadeIn 0.3s ease-out reverse forwards;
+}
+
+.task-item.completed .task-title {
+  text-decoration: line-through;
+  text-decoration-color: var(--text-muted);
+}
+
+/* View transition */
+.view {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Card hover lift */
+.dashboard-card,
+.stats-card,
+.analytics-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Button ripple */
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+.btn:active::after {
+  width: 200px;
+  height: 200px;
+  opacity: 0;
+  transition: 0s;
+}
+
+/* Pulse animation for add button */
+.pulse-btn {
+  animation: pulse 3s ease-in-out infinite;
+}
+.pulse-btn:hover {
+  animation: none;
+}
+
+/* Pomodoro ring */
+.pomo-progress {
+  transition: stroke-dashoffset 1s linear;
+}
+
+/* Task drag state */
+.task-item.sortable-ghost {
+  opacity: 0.3;
+  background: var(--accent) !important;
+}
+.task-item.sortable-chosen {
+  transform: rotate(2deg) scale(1.02);
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+}
+
+/* Streak fire animation */
+.streak-fire {
+  animation: fireFlicker 1s ease-in-out infinite;
+}
+
+/* Progress bar fill animation */
+.progress-bar {
+  transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* XP bar animation */
+.xp-bar-fill {
+  transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Heatmap cell animations with delay */
+.heatmap-cell {
+  animation: heatmapReveal 0.3s ease-out forwards;
+}
+
+/* Toast slide */
+.toast { animation: toastIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
+.toast.removing { animation: toastOut 0.3s ease-in forwards; }
+
+/* Achievement popup */
+.achievement-popup.show {
+  display: flex !important;
+  animation: achievementPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* Mood button select bounce */
+.mood-btn.selected {
+  animation: bounceIn 0.4s ease;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

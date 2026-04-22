@@ -1,0 +1,256 @@
+/* ================================================================
+   GOOGLE CALENDAR SYNC — UI Styles
+   ================================================================ */
+
+/* ---- Panel Container ---- */
+.gcal-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ---- Header Row ---- */
+.gcal-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.gcal-logo {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 6px;
+}
+
+.gcal-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 2px;
+}
+
+.gcal-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ---- Status Badge ---- */
+.gcal-status-badge {
+  margin-left: auto;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.gcal-status-badge.connected {
+  background: var(--success-light);
+  color: var(--success);
+  border: 1px solid var(--success);
+}
+
+.gcal-status-badge.disconnected {
+  background: var(--bg-card-hover);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.gcal-status-badge.syncing {
+  background: var(--info-light);
+  color: var(--info);
+  border: 1px solid var(--info);
+  animation: syncPulse 1s ease-in-out infinite;
+}
+
+@keyframes syncPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
+/* ---- Setup Steps ---- */
+.gcal-setup-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.gcal-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.gcal-step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--gradient-accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.gcal-step-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.gcal-step-body strong {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.gcal-step-body p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 0 0 4px;
+  line-height: 1.5;
+}
+
+.gcal-tip {
+  font-size: 11px !important;
+  color: var(--text-muted) !important;
+  background: var(--bg-tag);
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  margin-top: 4px !important;
+}
+
+.gcal-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+.gcal-link:hover { text-decoration: underline; }
+
+.gcal-tip code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--bg-input);
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: var(--accent);
+}
+
+/* ---- Client ID Input Row ---- */
+.gcal-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.gcal-input-row .settings-input {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* ---- Sync Stats ---- */
+.gcal-sync-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.gcal-stat {
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gcal-stat-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent);
+  font-family: var(--font-mono);
+}
+
+.gcal-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ---- Sync Action Buttons ---- */
+.gcal-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.gcal-actions .btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---- Options ---- */
+.gcal-options {
+  padding: 16px;
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+/* ---- Syncing Indicator ---- */
+.gcal-syncing {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--info-light);
+  border: 1px solid var(--info);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--info);
+  font-weight: 600;
+}
+
+.gcal-sync-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--info-light);
+  border-top-color: var(--info);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  .gcal-sync-stats { grid-template-columns: repeat(2, 1fr); }
+  .gcal-header { flex-wrap: wrap; }
+  .gcal-status-badge { margin-left: 0; }
+  .gcal-input-row { flex-direction: column; }
+}

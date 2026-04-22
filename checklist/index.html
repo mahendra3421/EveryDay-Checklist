@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ultimate Daily Checklist & Productivity App — Manage tasks, track habits, analyze productivity, and achieve your goals." />
+  <meta name="theme-color" content="#0f0f1a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>FlowTask — Ultimate Productivity App</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Chart.js for analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- Sortable.js for drag-and-drop -->
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <!-- Lucide icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/phase2.css" />
+  <link rel="stylesheet" href="css/enhancements.css" />
+  <link rel="stylesheet" href="css/calendar.css" />
+</head>
+<body>
+  <!-- App Shell -->
+  <div id="app" class="app-shell">
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+            </svg>
+          </div>
+          <span class="logo-text">FlowTask</span>
+        </div>
+        <button id="sidebar-toggle" class="icon-btn sidebar-close-btn" aria-label="Close sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="user-profile-mini">
+        <div class="avatar" id="nav-avatar">M</div>
+        <div class="user-info">
+          <span class="user-name" id="nav-username">User</span>
+          <span class="user-level" id="nav-level">Level 1 · Beginner</span>
+        </div>
+        <div class="xp-badge" id="nav-xp">0 XP</div>
+      </div>
+
+      <nav class="nav-menu">
+        <div class="nav-section-label">Main</div>
+        <a href="#" class="nav-item active" data-view="dashboard" id="nav-dashboard">
+          <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
+          <span class="nav-label">Dashboard</span>
+          <span class="nav-badge" id="badge-today">0</span>
+        </a>
+        <a href="#" class="nav-item" data-view="today" id="nav-today">
+          <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+          <span class="nav-label">Today</span>
+        </a>
+        <a href="#" class="nav-item" data-view="upcoming" id="nav-upcoming">
+          <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+          <span class="nav-label">Upcoming</span>
+          <span class="nav-badge upcoming-badge" id="badge-upcoming">0</span>
+        </a>
+        <a href="#" class="nav-item" data-view="all-tasks" id="nav-all">
+          <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span>
+          <span class="nav-label">All Tasks</span>
+        </a>
+        <a href="#" class="nav-item" data-view="focus" id="nav-focus">
+          <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>
+          <span class="nav-label">Focus Mode</span>
+          <span class="nav-tag new-tag">HOT</span>
+        </a>
+
+        <div class="nav-section-label">Insights</div>
+        <a href="#" class="nav-item" data-view="analytics" id="nav-analytics">
+          <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+          <span class="nav-label">Analytics</span>
+        </a>
+        <a href="#" class="nav-item" data-view="achievements" id="nav-achievements">
+          <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></span>
+          <span class="nav-label">Achievements</span>
+        </a>
+        <a href="#" class="nav-item" data-view="wellness" id="nav-wellness">
+          <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span>
+          <span class="nav-label">Wellness</span>
+        </a>
+
+        <div class="nav-section-label">System</div>
+        <a href="#" class="nav-item" data-view="settings" id="nav-settings">
+          <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 104.93 19.07 10 10 0 0019.07 4.93z"/></svg></span>
+          <span class="nav-label">Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="daily-quote" id="daily-quote">
+          <span class="quote-icon">💡</span>
+          <span class="quote-text">"Done is better than perfect."</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="main-content" role="main">
+
+      <!-- Top Header Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="mobile-menu-btn" class="icon-btn" aria-label="Open menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="breadcrumb">
+            <span class="breadcrumb-app">FlowTask</span>
+            <span class="breadcrumb-sep">/</span>
+            <span class="breadcrumb-page" id="current-page-title">Dashboard</span>
+          </div>
+        </div>
+        <div class="topbar-center">
+          <div class="search-bar" id="global-search-bar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="global-search" placeholder="Search tasks, tags, categories..." aria-label="Global search" />
+            <kbd class="search-kbd">⌘K</kbd>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button id="voice-input-btn" aria-label="Voice input" title="Add task by voice">
+            🎤 Voice
+          </button>
+          <div id="voice-indicator">
+            <span>●</span> <span id="voice-transcript"></span>
+          </div>
+          <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme" title="Toggle theme">
+            <svg id="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+            <svg id="theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/></svg>
+          </button>
+          <button id="notifications-btn" class="icon-btn notification-btn" aria-label="Notifications">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <span class="notif-dot" id="notif-dot"></span>
+          </button>
+          <button class="add-task-btn pulse-btn" id="global-add-task-btn" aria-label="Add new task">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>New Task</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- View Container -->
+      <div class="view-container" id="view-container">
+
+        <!-- ===== DASHBOARD VIEW ===== -->
+        <section class="view active" id="view-dashboard">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title" id="dashboard-greeting">Good Morning! 👋</h1>
+              <p class="view-subtitle" id="dashboard-date">Monday, April 21, 2026</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-outline" id="daily-reset-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+                Daily Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- Stats Cards Row -->
+          <div class="stats-grid">
+            <div class="stat-card stat-primary">
+              <div class="stat-icon">📋</div>
+              <div class="stat-info">
+                <span class="stat-value" id="stat-total">0</span>
+                <span class="stat-label">Total Tasks</span>
+              </div>
+              <div class="stat-trend positive" id="stat-trend-total">+0 today</div>
+            </div>
+            <div class="stat-card stat-success">
+              <div class="stat-icon">✅</div>
+              <div class="stat-info">
+                <span class="stat-value" id="stat-completed">0</span>
+                <span class="stat-label">Completed</span>
+              </div>
+              <div class="stat-trend" id="stat-trend-completed">0% rate</div>
+            </div>
+            <div class="stat-card stat-warning">
+              <div class="stat-icon">⏳</div>
+              <div class="stat-info">
+                <span class="stat-value" id="stat-pending">0</span>
+                <span class="stat-label">Pending</span>
+              </div>
+              <div class="stat-trend" id="stat-overdue-count">0 overdue</div>
+            </div>
+            <div class="stat-card stat-accent">
+              <div class="stat-icon">🔥</div>
+              <div class="stat-info">
+                <span class="stat-value" id="stat-streak">0</span>
+                <span class="stat-label">Day Streak</span>
+              </div>
+              <div class="stat-trend positive" id="stat-streak-best">Best: 0</div>
+            </div>
+            <div class="stat-card stat-purple">
+              <div class="stat-icon">⚡</div>
+              <div class="stat-info">
+                <span class="stat-value" id="stat-xp">0</span>
+                <span class="stat-label">XP Points</span>
+              </div>
+              <div class="stat-trend positive" id="stat-level-label">Level 1</div>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-section">
+            <div class="progress-header">
+              <span class="progress-label">Today's Progress</span>
+              <span class="progress-percentage" id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar" id="main-progress-bar" style="width:0%"></div>
+            </div>
+            <p class="progress-sublabel" id="progress-sublabel">Complete your tasks to fill the bar!</p>
+          </div>
+
+          <!-- AI Panel -->
+          <div class="ai-panel">
+            <div class="ai-panel-header">
+              <span class="ai-panel-title">Smart Suggestions</span>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="ai-action-btn" id="ai-auto-schedule-btn">📅 Auto-Schedule</button>
+                <button class="ai-action-btn" id="ai-reschedule-btn">🔄 Fix Overdue</button>
+                <button class="ai-action-btn" id="ai-refresh-btn">✨ Refresh Ideas</button>
+              </div>
+            </div>
+            <div id="ai-suggestions-list"></div>
+          </div>
+
+          <!-- Dashboard Grid -->
+          <div class="dashboard-grid">
+
+            <!-- Today's Tasks Quick View -->
+            <div class="dashboard-card card-wide">
+              <div class="card-header">
+                <h2 class="card-title">Today's Tasks</h2>
+                <div class="card-actions">
+                  <select class="mini-select" id="dashboard-filter-priority">
+                    <option value="all">All Priorities</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                  <button class="btn btn-sm btn-primary" id="dash-add-task-btn">+ Add Task</button>
+                </div>
+              </div>
+              <div class="task-list-container" id="dashboard-task-list">
+                <div class="empty-state" id="dashboard-empty">
+                  <div class="empty-state-icon">🎯</div>
+                  <h3>No tasks yet!</h3>
+                  <p>Add your first task to get started on an amazing day.</p>
+                  <button class="btn btn-primary" id="empty-add-btn">Add Task</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Productivity Rings -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <h2 class="card-title">Categories</h2>
+              </div>
+              <div class="category-rings" id="category-rings">
+                <canvas id="category-chart" width="200" height="200"></canvas>
+                <div class="category-legend" id="category-legend"></div>
+              </div>
+            </div>
+
+            <!-- Streak Heatmap mini -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <h2 class="card-title">Streak Heatmap</h2>
+                <span class="card-subtitle" id="heatmap-month"></span>
+              </div>
+              <div class="heatmap-mini" id="heatmap-mini"></div>
+            </div>
+
+            <!-- Quick Pomodoro -->
+            <div class="dashboard-card pomodoro-card">
+              <div class="card-header">
+                <h2 class="card-title">Pomodoro Timer</h2>
+                <span class="pomodoro-session-label" id="pomo-session-label">Focus Session</span>
+              </div>
+              <div class="pomodoro-display">
+                <div class="pomodoro-ring" id="pomo-ring">
+                  <svg class="pomo-svg" viewBox="0 0 120 120">
+                    <circle class="pomo-track" cx="60" cy="60" r="50"/>
+                    <circle class="pomo-progress" cx="60" cy="60" r="50" id="pomo-progress-circle"/>
+                  </svg>
+                  <div class="pomo-time" id="pomo-time">25:00</div>
+                  <div class="pomo-label" id="pomo-state-label">Ready</div>
+                </div>
+              </div>
+              <div class="pomo-controls">
+                <button class="pomo-btn" id="pomo-start">▶ Start</button>
+                <button class="pomo-btn pomo-btn-secondary" id="pomo-reset">↺ Reset</button>
+                <button class="pomo-btn pomo-btn-alt" id="pomo-skip">⏭ Skip</button>
+              </div>
+              <div class="pomo-sessions">
+                <span>Sessions: </span>
+                <span class="session-dots" id="session-dots">○ ○ ○ ○</span>
+              </div>
+            </div>
+
+            <!-- Mood Tracker -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <h2 class="card-title">Today's Mood</h2>
+              </div>
+              <div class="mood-tracker" id="mood-tracker">
+                <div class="mood-options">
+                  <button class="mood-btn" data-mood="😔" data-value="1" title="Struggling">😔</button>
+                  <button class="mood-btn" data-mood="😐" data-value="2" title="Meh">😐</button>
+                  <button class="mood-btn" data-mood="🙂" data-value="3" title="Okay">🙂</button>
+                  <button class="mood-btn" data-mood="😊" data-value="4" title="Good">😊</button>
+                  <button class="mood-btn" data-mood="🤩" data-value="5" title="Amazing">🤩</button>
+                </div>
+                <div class="energy-section">
+                  <span class="energy-label">Energy Level:</span>
+                  <div class="energy-options">
+                    <button class="energy-btn" data-energy="low">🔋 Low</button>
+                    <button class="energy-btn" data-energy="medium">⚡ Medium</button>
+                    <button class="energy-btn" data-energy="high">🚀 High</button>
+                  </div>
+                </div>
+                <p class="mood-suggestion" id="mood-suggestion">Select your mood to get task suggestions!</p>
+              </div>
+            </div>
+
+            <!-- Daily Quote / Motivation -->
+            <div class="dashboard-card motivation-card">
+              <div class="card-header">
+                <h2 class="card-title">Daily Motivation</h2>
+                <button class="icon-btn" id="new-quote-btn" title="New quote">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+                </button>
+              </div>
+              <div class="quote-display" id="quote-display">
+                <blockquote id="quote-text">"The secret of getting ahead is getting started."</blockquote>
+                <cite id="quote-author">— Mark Twain</cite>
+              </div>
+              <div class="daily-challenge">
+                <h3>🎯 Daily Challenge</h3>
+                <p id="daily-challenge-text">Complete 5 tasks before noon!</p>
+                <div class="challenge-progress">
+                  <div class="challenge-bar" id="challenge-bar" style="width:0%"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ===== TODAY VIEW ===== -->
+        <section class="view" id="view-today">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Today's List</h1>
+              <p class="view-subtitle" id="today-date-label"></p>
+            </div>
+            <div class="header-actions">
+              <div class="view-toggle-group">
+                <button class="view-toggle active" data-view-mode="list" id="list-view-btn">≡ List</button>
+                <button class="view-toggle" data-view-mode="board" id="board-view-btn">⊞ Board</button>
+              </div>
+              <button class="btn btn-primary" id="today-add-btn">+ New Task</button>
+            </div>
+          </div>
+
+          <!-- Sections: In Progress, Today's List, Completed -->
+          <div class="today-sections" id="today-sections">
+
+            <!-- High Priority -->
+            <div class="task-section">
+              <div class="section-header">
+                <div class="section-title-row">
+                  <span class="section-dot dot-high"></span>
+                  <h2 class="section-title">High Priority</h2>
+                  <span class="section-count" id="count-high">0</span>
+                </div>
+              </div>
+              <div class="task-drop-zone" id="today-high-list" data-priority="high"></div>
+            </div>
+
+            <!-- Medium Priority -->
+            <div class="task-section">
+              <div class="section-header">
+                <div class="section-title-row">
+                  <span class="section-dot dot-medium"></span>
+                  <h2 class="section-title">Medium Priority</h2>
+                  <span class="section-count" id="count-medium">0</span>
+                </div>
+              </div>
+              <div class="task-drop-zone" id="today-medium-list" data-priority="medium"></div>
+            </div>
+
+            <!-- Low Priority -->
+            <div class="task-section">
+              <div class="section-header">
+                <div class="section-title-row">
+                  <span class="section-dot dot-low"></span>
+                  <h2 class="section-title">Low Priority</h2>
+                  <span class="section-count" id="count-low">0</span>
+                </div>
+              </div>
+              <div class="task-drop-zone" id="today-low-list" data-priority="low"></div>
+            </div>
+
+            <!-- Completed Today -->
+            <div class="task-section completed-section">
+              <div class="section-header collapsible" id="completed-header">
+                <div class="section-title-row">
+                  <span class="section-dot dot-done"></span>
+                  <h2 class="section-title">Completed</h2>
+                  <span class="section-count" id="count-done">0</span>
+                </div>
+                <button class="collapse-btn" id="collapse-completed">▾</button>
+              </div>
+              <div class="task-drop-zone completed-list" id="today-done-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== UPCOMING VIEW ===== -->
+        <section class="view" id="view-upcoming">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Upcoming Tasks</h1>
+              <p class="view-subtitle">Tasks scheduled for the next 7 days</p>
+            </div>
+            <button class="btn btn-primary" id="upcoming-add-btn">+ New Task</button>
+          </div>
+          <div id="upcoming-content"></div>
+        </section>
+
+        <!-- ===== ALL TASKS VIEW ===== -->
+        <section class="view" id="view-all-tasks">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">All Tasks</h1>
+              <p class="view-subtitle" id="all-tasks-count">0 tasks total</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-outline" id="export-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export CSV
+              </button>
+              <button class="btn btn-primary" id="all-tasks-add-btn">+ New Task</button>
+            </div>
+          </div>
+
+          <!-- Filter & Sort Bar -->
+          <div class="filter-bar">
+            <div class="filter-group">
+              <label>Category</label>
+              <select id="filter-category" class="filter-select">
+                <option value="all">All</option>
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+                <option value="fitness">Fitness</option>
+                <option value="study">Study</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Priority</label>
+              <select id="filter-priority" class="filter-select">
+                <option value="all">All</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Status</label>
+              <select id="filter-status" class="filter-select">
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="completed">Completed</option>
+                <option value="overdue">Overdue</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Sort By</label>
+              <select id="sort-tasks" class="filter-select">
+                <option value="created">Date Created</option>
+                <option value="due">Due Date</option>
+                <option value="priority">Priority</option>
+                <option value="title">Title</option>
+              </select>
+            </div>
+            <button class="btn btn-outline btn-sm" id="clear-filters-btn">Clear Filters</button>
+          </div>
+
+          <div id="all-tasks-list" class="all-tasks-container"></div>
+        </section>
+
+        <!-- ===== FOCUS MODE VIEW ===== -->
+        <section class="view" id="view-focus">
+          <div class="focus-mode-container" id="focus-mode-container">
+            <div class="focus-header">
+              <h1 class="focus-title">Focus Mode</h1>
+              <p class="focus-subtitle" id="focus-task-counter">Task 0 of 0</p>
+            </div>
+            <div class="focus-task-card" id="focus-task-card">
+              <div class="focus-empty" id="focus-empty">
+                <div style="font-size:4rem">🎯</div>
+                <h2>No tasks to focus on!</h2>
+                <p>Add some tasks first, then return here.</p>
+              </div>
+            </div>
+            <div class="focus-controls" id="focus-controls" style="display:none">
+              <button class="focus-btn focus-prev" id="focus-prev">← Previous</button>
+              <button class="focus-btn focus-complete" id="focus-complete">✓ Mark Complete</button>
+              <button class="focus-btn focus-next" id="focus-next">Next →</button>
+            </div>
+            <div class="focus-pomodoro" id="focus-pomodoro">
+              <div class="focus-timer" id="focus-timer">25:00</div>
+              <button class="focus-start-btn" id="focus-start-pomo">Start Pomodoro</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== ANALYTICS VIEW ===== -->
+        <section class="view" id="view-analytics">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Analytics & Insights</h1>
+              <p class="view-subtitle">Track your productivity over time</p>
+            </div>
+            <div class="header-actions">
+              <div class="period-selector">
+                <button class="period-btn active" data-period="week" id="period-week">Week</button>
+                <button class="period-btn" data-period="month" id="period-month">Month</button>
+                <button class="period-btn" data-period="year" id="period-year">Year</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="analytics-grid">
+            <div class="analytics-card chart-card">
+              <h3>Completion Rate</h3>
+              <canvas id="completion-chart" height="120"></canvas>
+            </div>
+            <div class="analytics-card chart-card">
+              <h3>Tasks by Category</h3>
+              <canvas id="category-analytics-chart" height="120"></canvas>
+            </div>
+            <div class="analytics-card chart-card wide-chart">
+              <h3>Productivity Heatmap</h3>
+              <div class="heatmap-full" id="heatmap-full"></div>
+            </div>
+            <div class="analytics-card">
+              <h3>📊 Summary Stats</h3>
+              <div class="summary-stats">
+                <div class="summary-stat">
+                  <span class="s-val" id="total-completed-ever">0</span>
+                  <span class="s-label">Total Completed</span>
+                </div>
+                <div class="summary-stat">
+                  <span class="s-val" id="avg-daily-completion">0</span>
+                  <span class="s-label">Avg Daily</span>
+                </div>
+                <div class="summary-stat">
+                  <span class="s-val" id="best-streak-stat">0</span>
+                  <span class="s-label">Best Streak</span>
+                </div>
+                <div class="summary-stat">
+                  <span class="s-val" id="total-focus-time">0h</span>
+                  <span class="s-label">Focus Time</span>
+                </div>
+              </div>
+            </div>
+            <div class="analytics-card">
+              <h3>🏆 Top Tags</h3>
+              <div class="top-tags" id="top-tags-analytics"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== ACHIEVEMENTS VIEW ===== -->
+        <section class="view" id="view-achievements">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Achievements</h1>
+              <p class="view-subtitle" id="achievements-subtitle">Unlock badges and level up!</p>
+            </div>
+          </div>
+          <div class="xp-bar-section">
+            <div class="xp-header">
+              <span id="level-display">Level 1 — Beginner</span>
+              <span id="xp-display">0 / 100 XP</span>
+            </div>
+            <div class="xp-bar-bg">
+              <div class="xp-bar-fill" id="xp-bar-fill" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="achievements-grid" id="achievements-grid"></div>
+        </section>
+
+        <!-- ===== WELLNESS VIEW ===== -->
+        <section class="view" id="view-wellness">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Wellness Center</h1>
+              <p class="view-subtitle">Balance your mind and productivity</p>
+            </div>
+          </div>
+          <div class="wellness-grid">
+            <div class="wellness-card">
+              <h3>😊 Mood History</h3>
+              <canvas id="mood-chart" height="150"></canvas>
+            </div>
+            <div class="wellness-card">
+              <h3>⚡ Energy History</h3>
+              <canvas id="energy-chart" height="150"></canvas>
+            </div>
+            <div class="wellness-card wide-wellness">
+              <h3>🧘 Wellness Tips</h3>
+              <div class="wellness-tips" id="wellness-tips"></div>
+            </div>
+            <div class="wellness-card">
+              <h3>⚖️ Work-Life Balance</h3>
+              <canvas id="balance-chart" height="150"></canvas>
+            </div>
+            <div class="wellness-card detox-card">
+              <h3>📵 Digital Detox Mode</h3>
+              <p>Enable to hide distracting elements and focus on what matters.</p>
+              <label class="toggle-label">
+                <input type="checkbox" id="detox-toggle" class="toggle-input" />
+                <span class="toggle-slider"></span>
+                <span>Digital Detox</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== SETTINGS VIEW ===== -->
+        <section class="view" id="view-settings">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Settings</h1>
+              <p class="view-subtitle">Customize your FlowTask experience</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <!-- Profile Settings -->
+            <div class="settings-card">
+              <h3 class="settings-section-title">👤 Profile</h3>
+              <div class="settings-field">
+                <label for="setting-username">Display Name</label>
+                <input type="text" id="setting-username" class="settings-input" placeholder="Your name" />
+              </div>
+              <div class="settings-field">
+                <label for="setting-avatar">Avatar Initial</label>
+                <input type="text" id="setting-avatar" class="settings-input" placeholder="M" maxlength="2" />
+              </div>
+              <button class="btn btn-primary" id="save-profile-btn">Save Profile</button>
+            </div>
+
+            <!-- Appearance -->
+            <div class="settings-card">
+              <h3 class="settings-section-title">🎨 Appearance</h3>
+              <div class="settings-field">
+                <label>Theme</label>
+                <div class="theme-options">
+                  <button class="theme-opt active" data-theme="dark">🌙 Aurora</button>
+                  <button class="theme-opt" data-theme="light">☀️ Light</button>
+                  <button class="theme-opt" data-theme="ocean">🌊 Ocean</button>
+                  <button class="theme-opt" data-theme="forest">🌿 Forest</button>
+                  <button class="theme-opt" data-theme="sunset">🌅 Sunset</button>
+                  <button class="theme-opt" data-theme="rose">🌸 Rose</button>
+                  <button class="theme-opt" data-theme="midnight">🖤 Midnight</button>
+                  <button class="theme-opt" data-theme="arctic">❄️ Arctic</button>
+                </div>
+              </div>
+              <div class="settings-field">
+                <label>Accent Color</label>
+                <div class="accent-colors" id="accent-colors">
+                  <button class="accent-btn active" data-color="#7c6fff" style="background:#7c6fff" title="Violet"></button>
+                  <button class="accent-btn" data-color="#00c8f0" style="background:#00c8f0" title="Cyan"></button>
+                  <button class="accent-btn" data-color="#ff5370" style="background:#ff5370" title="Red"></button>
+                  <button class="accent-btn" data-color="#00d478" style="background:#00d478" title="Emerald"></button>
+                  <button class="accent-btn" data-color="#ff8c28" style="background:#ff8c28" title="Orange"></button>
+                  <button class="accent-btn" data-color="#c040ff" style="background:#c040ff" title="Purple"></button>
+                  <button class="accent-btn" data-color="#ff50b4" style="background:#ff50b4" title="Pink"></button>
+                  <button class="accent-btn" data-color="#ffbe3d" style="background:#ffbe3d" title="Gold"></button>
+                  <button class="accent-btn" data-color="#2563eb" style="background:#2563eb" title="Blue"></button>
+                  <button class="accent-btn" data-color="#059669" style="background:#059669" title="Teal"></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Task Defaults -->
+            <div class="settings-card">
+              <h3 class="settings-section-title">⚙️ Task Defaults</h3>
+              <div class="settings-field">
+                <label for="default-category">Default Category</label>
+                <select id="default-category" class="settings-select">
+                  <option value="personal">Personal</option>
+                  <option value="work">Work</option>
+                  <option value="fitness">Fitness</option>
+                  <option value="study">Study</option>
+                </select>
+              </div>
+              <div class="settings-field">
+                <label for="default-priority">Default Priority</label>
+                <select id="default-priority" class="settings-select">
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                  <option value="low">Low</option>
+                </select>
+              </div>
+              <div class="settings-field">
+                <label class="toggle-label">
+                  <input type="checkbox" id="auto-reset-toggle" class="toggle-input" checked />
+                  <span class="toggle-slider"></span>
+                  <span>Auto-reset tasks daily</span>
+                </label>
+              </div>
+              <div class="settings-field">
+                <label class="toggle-label">
+                  <input type="checkbox" id="carry-forward-toggle" class="toggle-input" checked />
+                  <span class="toggle-slider"></span>
+                  <span>Carry forward incomplete tasks</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="settings-card">
+              <h3 class="settings-section-title">🔔 Notifications</h3>
+              <div class="settings-field">
+                <label class="toggle-label">
+                  <input type="checkbox" id="notif-due-toggle" class="toggle-input" checked />
+                  <span class="toggle-slider"></span>
+                  <span>Due date reminders</span>
+                </label>
+              </div>
+              <div class="settings-field">
+                <label class="toggle-label">
+                  <input type="checkbox" id="notif-daily-toggle" class="toggle-input" checked />
+                  <span class="toggle-slider"></span>
+                  <span>Daily summary</span>
+                </label>
+              </div>
+              <div class="settings-field">
+                <label class="toggle-label">
+                  <input type="checkbox" id="notif-streak-toggle" class="toggle-input" checked />
+                  <span class="toggle-slider"></span>
+                  <span>Streak alerts</span>
+                </label>
+              </div>
+              <div class="settings-field">
+                <label for="reminder-time">Daily Reminder Time</label>
+                <input type="time" id="reminder-time" class="settings-input" value="09:00" />
+              </div>
+            </div>
+
+            <!-- Pomodoro Settings -->
+            <div class="settings-card">
+              <h3 class="settings-section-title">🍅 Pomodoro</h3>
+              <div class="settings-field">
+                <label for="pomo-work-duration">Work Duration (mins)</label>
+                <input type="number" id="pomo-work-duration" class="settings-input" value="25" min="1" max="90" />
+              </div>
+              <div class="settings-field">
+                <label for="pomo-short-break">Short Break (mins)</label>
+                <input type="number" id="pomo-short-break" class="settings-input" value="5" min="1" max="30" />
+              </div>
+              <div class="settings-field">
+                <label for="pomo-long-break">Long Break (mins)</label>
+                <input type="number" id="pomo-long-break" class="settings-input" value="15" min="5" max="60" />
+              </div>
+              <button class="btn btn-primary" id="save-pomo-btn">Save Pomodoro Settings</button>
+            </div>
+
+            <!-- Custom Categories (Phase 2) -->
+            <div class="settings-card">
+              <h3 class="settings-section-title">🏷️ Custom Categories</h3>
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Add categories beyond Work, Personal, Fitness, Study.</p>
+              <div id="custom-categories-list" class="custom-categories-list"></div>
+              <div class="add-category-row">
+                <input type="text" id="new-category-name" class="settings-input" placeholder="Category name (e.g. Finance)" maxlength="20" />
+                <input type="color" id="new-category-color" class="settings-color" value="#6c63ff" title="Category color" />
+                <button class="btn btn-outline btn-sm" id="add-category-btn">+ Add</button>
+              </div>
+            </div>
+
+            <!-- Google Calendar Sync (Phase 3) -->
+            <div class="settings-card">
+              <h3 class="settings-section-title">
+                <span>📅 Google Calendar Sync</span>
+                <span class="badge-new">NEW</span>
+              </h3>
+              <div id="gcal-settings-panel">Loading…</div>
+            </div>
+
+            <!-- Data Management -->
+            <div class="settings-card">
+              <h3 class="settings-section-title">💾 Data</h3>
+              <div class="settings-actions">
+                <button class="btn btn-outline" id="backup-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Backup Data
+                </button>
+                <label class="btn btn-outline" for="restore-file">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Restore
+                  <input type="file" id="restore-file" accept=".json" style="display:none" />
+                </label>
+                <button class="btn btn-danger" id="clear-data-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+                  Clear All Data
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /view-container -->
+    </main>
+  </div><!-- /app-shell -->
+
+  <!-- ===== TASK MODAL ===== -->
+  <div class="modal-overlay" id="task-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal task-modal" id="task-modal">
+      <div class="modal-header">
+        <h2 id="modal-title">New Task</h2>
+        <button class="modal-close" id="modal-close-btn" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="task-form" novalidate>
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="task-title" class="form-label required">Title</label>
+              <input type="text" id="task-title" class="form-input" placeholder="What needs to be done?" required maxlength="200" />
+              <span class="field-error" id="title-error"></span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="task-description" class="form-label">Description</label>
+              <textarea id="task-description" class="form-textarea" placeholder="Add some details..." rows="3" maxlength="1000"></textarea>
+            </div>
+          </div>
+          <div class="form-row three-col">
+            <div class="form-group">
+              <label for="task-priority" class="form-label">Priority</label>
+              <select id="task-priority" class="form-select">
+                <option value="low">🟢 Low</option>
+                <option value="medium" selected>🟡 Medium</option>
+                <option value="high">🔴 High</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="task-category" class="form-label">Category</label>
+              <select id="task-category" class="form-select">
+                <option value="personal">👤 Personal</option>
+                <option value="work">💼 Work</option>
+                <option value="fitness">💪 Fitness</option>
+                <option value="study">📚 Study</option>
+              </select>
+            </div>
+              <div class="form-group">
+              <label for="task-recurring" class="form-label">Recurring</label>
+                <select id="task-recurring" class="form-select">
+                  <option value="none">Not recurring</option>
+                  <option value="daily">Daily</option>
+                  <option value="weekdays">Weekdays (Mon–Fri)</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="biweekly">Bi-weekly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="custom">Custom days...</option>
+                </select>
+              </div>
+          </div>
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="task-due-date" class="form-label">Due Date</label>
+              <input type="date" id="task-due-date" class="form-input" />
+            </div>
+            <div class="form-group">
+              <label for="task-due-time" class="form-label">Due Time</label>
+              <input type="time" id="task-due-time" class="form-input" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="task-tags" class="form-label">Tags</label>
+              <div class="tags-input-container" id="tags-input-container">
+                <div class="tags-list" id="tags-list"></div>
+                <input type="text" id="task-tags" class="tags-input" placeholder="Add tag and press Enter..." />
+              </div>
+            </div>
+          </div>
+
+          <!-- Recurring extra options (dynamic via JS) -->
+          <div id="recurring-extra-options"></div>
+
+          <!-- Reminder (Phase 2) -->
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="task-reminder-date" class="form-label">⏰ Reminder Date</label>
+              <input type="date" id="task-reminder-date" class="form-input" />
+            </div>
+            <div class="form-group">
+              <label for="task-reminder-time" class="form-label">Reminder Time</label>
+              <input type="time" id="task-reminder-time" class="form-input" value="09:00" />
+            </div>
+          </div>
+
+          <!-- Subtasks -->
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label class="form-label">Subtasks</label>
+              <div class="subtasks-container">
+                <div id="subtasks-list" class="subtasks-list"></div>
+                <div class="add-subtask-row">
+                  <input type="text" id="new-subtask-input" class="form-input" placeholder="Add a subtask..." />
+                  <button type="button" class="btn btn-sm btn-outline" id="add-subtask-btn">+ Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="modal-cancel-btn">Cancel</button>
+        <button class="btn btn-primary" id="modal-save-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save Task
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TASK DETAIL MODAL ===== -->
+  <div class="modal-overlay" id="task-detail-overlay" role="dialog" aria-modal="true">
+    <div class="modal task-detail-modal" id="task-detail-modal">
+      <div class="modal-header">
+        <div class="task-detail-header-content">
+          <span class="detail-priority-badge" id="detail-priority-badge">HIGH</span>
+          <span class="detail-category-badge" id="detail-category-badge">Work</span>
+        </div>
+        <button class="modal-close" id="detail-close-btn" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <h2 id="detail-title" class="detail-title"></h2>
+        <p id="detail-description" class="detail-description"></p>
+        <div class="detail-meta" id="detail-meta"></div>
+        <div class="detail-tags" id="detail-tags"></div>
+        <div class="detail-subtasks" id="detail-subtasks"></div>
+        <div class="detail-comments">
+          <h4>Notes</h4>
+          <textarea id="detail-notes" class="form-textarea" placeholder="Add notes to this task..." rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="detail-delete-btn">🗑 Delete</button>
+        <button class="btn btn-outline" id="detail-edit-btn">✏️ Edit</button>
+        <button class="btn btn-primary" id="detail-complete-btn">✓ Complete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NOTIFICATION TOAST ===== -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- ===== CONFETTI CANVAS ===== -->
+  <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;"></canvas>
+
+  <!-- Notification Center Panel (Phase 2) -->
+  <div class="notif-center-overlay" id="notif-center-overlay"></div>
+  <aside class="notif-center-panel" id="notif-center-panel" role="dialog" aria-label="Notification Center">
+    <div class="notif-center-header">
+      <h3>Notifications</h3>
+      <div class="notif-center-actions">
+        <button class="btn btn-sm btn-outline" id="notif-clear-all">Clear All</button>
+        <button class="icon-btn" id="notif-center-close" aria-label="Close">✕</button>
+      </div>
+    </div>
+    <div class="notif-tabs">
+      <button class="notif-tab active" data-tab="alerts">🔔 Alerts</button>
+      <button class="notif-tab" data-tab="upcoming">📅 Upcoming</button>
+    </div>
+    <div class="notif-center-body" id="notif-center-body"></div>
+  </aside>
+
+  <!-- Achievement Popup -->
+  <div class="achievement-popup" id="achievement-popup" style="display:none">
+    <div class="achievement-popup-content">
+      <div class="achievement-popup-icon" id="achievement-popup-icon">🏆</div>
+      <div>
+        <div class="achievement-popup-title">Achievement Unlocked!</div>
+        <div class="achievement-popup-name" id="achievement-popup-name"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts — modular -->
+  <script src="js/core/storage.js"></script>
+  <script src="js/core/state.js"></script>
+  <script src="js/core/utils.js"></script>
+  <script src="js/modules/gamification.js"></script>
+  <script src="js/modules/tasks.js"></script>
+  <script src="js/modules/pomodoro.js"></script>
+  <script src="js/modules/analytics.js"></script>
+  <script src="js/modules/wellness.js"></script>
+  <script src="js/modules/notifications.js"></script>
+  <script src="js/modules/search.js"></script>
+  <!-- Phase 2-4 modules -->
+  <script src="js/modules/reminders.js"></script>
+  <script src="js/ui/taskCard.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/heatmap.js"></script>
+  <script src="js/ui/charts.js"></script>
+  <!-- Phase 2-4 UI -->
+  <script src="js/ui/notifCenter.js"></script>
+  <script src="js/modules/ai.js"></script>
+  <script src="js/modules/calendar.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Register Service Worker for PWA support
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg  => console.log('[SW] Registered:', reg.scope))
+          .catch(err => console.warn('[SW] Registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>
