@@ -1,7 +1,7 @@
 # 🚀 FlowTask — Ultimate Daily Checklist & Productivity App
 
 🌐 **Public URL**  
-https://checklist-biux0k65n-mahendravarmakare-5907s-projects.vercel.app/
+https://checklist-8zlqyari5-mahendravarmakare-5907s-projects.vercel.app/
 
 A production-ready, fully-featured productivity app with modular architecture, dark/light themes, gamification, analytics, Pomodoro timer, wellness tracking, and PWA support. **Zero dependencies required to run** — just open `index.html` in any modern browser.
 
